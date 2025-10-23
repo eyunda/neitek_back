@@ -3,7 +3,6 @@ import { createPublicResetToken, publicResetPassword } from '../services/passwor
 
 const router = Router();
 
-/** POST /api/password/forgot  { email } */
 router.post('/password/forgot', async (req, res) => {
   try {
     const { email } = req.body || {};
@@ -17,7 +16,6 @@ router.post('/password/forgot', async (req, res) => {
   }
 });
 
-/** POST /api/password/public-reset  { token, newPassword } */
 router.post('/password/public-reset', async (req, res) => {
   try {
     const { token, newPassword } = req.body || {};

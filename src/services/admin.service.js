@@ -47,7 +47,6 @@ export async function createUser({ name, email, phone, password, role = 'user' }
 
     await conn.commit();
 
-    // 🔔 Email (no bloqueante)
     sendUserCreatedEmail({
       name,
       email,

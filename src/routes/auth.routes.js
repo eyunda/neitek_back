@@ -74,7 +74,6 @@ function requireAdmin(req, res, next) {
   next();
 }
 
-// GET /api/admin/users  -> lista usuarios con roles
 router.get('/admin/users', requireAuth, requireAdmin, async (req, res) => {
   try {
     const users = await listUsers();
@@ -85,7 +84,6 @@ router.get('/admin/users', requireAuth, requireAdmin, async (req, res) => {
   }
 });
 
-// POST /api/admin/users -> crear usuario {name,email,phone,password,role}
 router.post('/admin/users', requireAuth, requireAdmin, async (req, res) => {
   try {
     const { name, email, phone, password, role = 'user' } = req.body || {};

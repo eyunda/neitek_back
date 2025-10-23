@@ -1,4 +1,3 @@
-// src/app.js
 import express from 'express';
 import cors from 'cors';
 import authRoutes from './routes/auth.routes.js';
@@ -14,19 +13,14 @@ app.use(cors({
   credentials: false
 }));
 
-// Parsers
 app.use(express.json());
 
-// Health
 app.get('/health', (req, res) => res.json({ ok: true }));
 
-// Rutas
 app.use('/api', authRoutes);
 
-//envio de correo pruebas
 app.use('/api', devRoutes);
 
-//olvido la contraseña
 app.use('/api', passwordPublicRoutes);
 
 export default app;

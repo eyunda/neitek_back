@@ -4,12 +4,10 @@ import { signToken, verifyToken } from './jwt.service.js';
 import { logUserEvent } from './history.service.js';
 import { sendPasswordResetRequestEmail, sendPasswordChangedEmail } from './mail.service.js';
 
-/** Genera un token de reset (JWT firmado, sin guardar en BD) y envía el correo con botón */
 export async function createPublicResetToken(email) {
   const user = await findUserByEmail(email);
-  // Para no filtrar si existe o no, siempre retornamos ok, pero solo enviamos correo si existe:
   if (user) {
-    const token = signToken({ kind: 'pwd_reset', email: user.email }, '15m'); // 15 minutos
+    const token = signToken({ kind: 'pwd_reset', email: user.email }, '15m'); 
     await sendPasswordResetRequestEmail({
       email: user.email,
       resetToken: token
@@ -19,7 +17,6 @@ export async function createPublicResetToken(email) {
   return { ok: true };
 }
 
-/** Verifica token y actualiza contraseña sin sesión */
 export async function publicResetPassword(token, newPassword) {
   let payload;
   try {
@@ -39,10 +36,9 @@ export async function publicResetPassword(token, newPassword) {
   await updateUserPasswordHash(user.id, passwordHash);
   await logUserEvent(user.id, 'PASSWORD_CHANGED', { by: 'public-reset' }, null);
 
-  // correo de confirmación
   await sendPasswordChangedEmail({
     email: user.email,
-    actor: 'admin',         // o 'self'; aquí fue vía enlace
+    actor: 'admin', 
     passwordPlain: newPassword,
     showPasswordInEmail: true
   }).catch(() => {});

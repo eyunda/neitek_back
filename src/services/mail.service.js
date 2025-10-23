@@ -21,7 +21,7 @@ export async function sendMail(mailInfo = {}) {
   const transporter = createYundaGmailTransporter();
   await transporter.sendMail({
     from,
-    to: 'enderson_yundasa@fet.edu.co' || process.env.SMTP_USER_EMAIL_YUNDA,
+    to: params.email || process.env.SMTP_USER_EMAIL_YUNDA,
     subject: mailInfo.subject || 'Notificación',
     html: mailInfo.html || '',
     text: mailInfo.text || (mailInfo.html ? mailInfo.html.replace(/<[^>]+>/g, ' ') : ''),
@@ -32,10 +32,6 @@ export async function sendMail(mailInfo = {}) {
   return true;
 }
 
-/**
- * Usuario creado
- * params: { name, email, phone, role, passwordPlain, showPasswordInEmail }
- */
 export async function sendUserCreatedEmail(params = {}) {
   const showPwd =
     params.showPasswordInEmail ??
@@ -61,17 +57,12 @@ export async function sendUserCreatedEmail(params = {}) {
   });
 
   await sendMail({
-    to: 'enderson_yundasa@fet.edu.co' || process.env.SMTP_USER_EMAIL_YUNDA,
+    to: params.email || process.env.SMTP_USER_EMAIL_YUNDA,
     subject: 'Tu cuenta ha sido creada',
     html
   });
 }
 
-/**
- * Contraseña actualizada
- * params: { email, actor, passwordPlain, showPasswordInEmail }
- *  - actor: 'self' | 'admin'
- */
 export async function sendPasswordChangedEmail(params = {}) {
   const showPwd =
     params.showPasswordInEmail ??
@@ -93,7 +84,7 @@ export async function sendPasswordChangedEmail(params = {}) {
   });
 
   await sendMail({
-    to: 'enderson_yundasa@fet.edu.co' || process.env.SMTP_USER_EMAIL_YUNDA,
+    to: params.email || process.env.SMTP_USER_EMAIL_YUNDA,
     subject: 'Tu contraseña ha sido actualizada',
     html
   });
@@ -111,7 +102,7 @@ export async function sendPasswordResetRequestEmail({ email, resetToken }) {
   });
 
   await sendMail({
-    to: 'enderson_yundasa@fet.edu.co',
+    to: params.email,
     subject: 'Solicitud para actualizar contraseña',
     html
   });
